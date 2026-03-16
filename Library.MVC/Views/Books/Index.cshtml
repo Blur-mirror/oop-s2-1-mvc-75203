@@ -1,0 +1,56 @@
+@model IEnumerable<Library.Domain.Book>
+@{
+    ViewBag.Title = "Books";
+}
+<h2>Books</h2>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-4">
+        <input name="search" value="@ViewBag.Search" class="form-control" placeholder="Search title or author…" />
+    </div>
+    <div class="col-md-3">
+        <select name="category" class="form-select">
+            <option value="">All Categories</option>
+            @foreach (SelectListItem item in ViewBag.Categories)
+            {
+                <option value="@item.Value" selected="@(item.Value == ViewBag.Category)">@item.Text</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="availability" class="form-select">
+            <option value="">All</option>
+            <option value="available" selected="@(ViewBag.Availability == "available")">Available</option>
+            <option value="onloan" selected="@(ViewBag.Availability == "onloan")">On Loan</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Filter</button>
+    </div>
+</form>
+
+<a asp-action="Create" class="btn btn-success mb-3">+ Add Book</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th><th>Author</th><th>Category</th><th>ISBN</th><th>Available</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var b in Model)
+        {
+            <tr>
+                <td>@b.Title</td>
+                <td>@b.Author</td>
+                <td>@b.Category</td>
+                <td>@b.Isbn</td>
+                <td>@(b.IsAvailable ? "Yes" : "Nope")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@b.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@b.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,39 @@
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewBag.Title = "Role Management";
+}
+<h2>Role Management</h2>
+
+<form asp-controller="Admin" asp-action="CreateRole" method="post" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input name="roleName" class="form-control" placeholder="New role name…" required />
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-success w-100">Create Role</button>
+    </div>
+</form>
+
+<table class="table table-bordered col-md-6">
+    <thead>
+        <tr>
+            <th>Role Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    <form asp-controller="Admin" asp-action="DeleteRole" method="post" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="roleId" value="@role.Id" />
+                        <button class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Delete role @role.Name?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

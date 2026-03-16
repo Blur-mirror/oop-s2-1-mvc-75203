@@ -1,0 +1,56 @@
+@model IEnumerable<Library.Domain.Loan>
+@{
+    ViewBag.Title = "Loans";
+}
+<h2>Loans</h2>
+<a asp-action="Create" class="btn btn-success mb-3">+ New Loan</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Loan Date</th>
+            <th>Due Date</th>
+            <th>Returned</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var l in Model)
+        {
+            <tr class="@(l.IsOverdue ? "table-danger" : "")">
+                <td>@l.Book.Title</td>
+                <td>@l.Member.FullName</td>
+                <td>@l.LoanDate.ToShortDateString()</td>
+                <td>@l.DueDate.ToShortDateString()</td>
+                <td>@(l.ReturnedDate?.ToShortDateString() ?? "—")</td>
+                <td>
+                    @if (l.ReturnedDate != null)
+                    {
+                        <span class="badge bg-success">Returned</span>
+                    }
+                    else if (l.IsOverdue)
+                    {
+
+                        <span class="badge bg-danger">Overdue</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-primary">Active</span>
+                    }
+                </td>
+                <td>
+                    @if (l.ReturnedDate == null)
+                    {
+                        <form asp-action="Return" asp-route-id="@l.Id" method="post" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-sm btn-outline-success">Mark Returned</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,27 @@
+@model Library.Domain.Loan
+@{
+    ViewBag.Title = "New Loan";
+}
+<h2>New Loan</h2>
+<div asp-validation-summary="All" class="text-danger mb-3"></div>
+<form asp-action="Create" method="post" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">Member</label>
+        <select asp-for="MemberId" asp-items="ViewBag.Members" class="form-select">
+            <option value="">— Select member —</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Book (available only)</label>
+        <select asp-for="BookId" asp-items="ViewBag.Books" class="form-select">
+            <option value="">— Select book —</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="DueDate" class="form-label"></label>
+        <input asp-for="DueDate" type="date" class="form-control"
+               value="@DateTime.Today.AddDays(14).ToString("yyyy-MM-dd")" />
+    </div>
+    <button class="btn btn-primary">Create Loan</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
