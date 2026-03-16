@@ -11,9 +11,9 @@
     <div class="col-md-3">
         <select name="category" class="form-select">
             <option value="">All Categories</option>
-            @foreach (SelectListItem item in ViewBag.Categories)
+            @foreach (var cat in ViewBag.Categories as List<string> ?? new List<string>())
             {
-                <option value="@item.Value" selected="@(item.Value == ViewBag.Category)">@item.Text</option>
+                <option value="@cat" selected="@(cat == ViewBag.Category ? "selected" : null)">@cat</option>
             }
         </select>
     </div>
@@ -34,7 +34,12 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Title</th><th>Author</th><th>Category</th><th>ISBN</th><th>Available</th><th></th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>ISBN</th>
+            <th>Available</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -45,7 +50,7 @@
                 <td>@b.Author</td>
                 <td>@b.Category</td>
                 <td>@b.Isbn</td>
-                <td>@(b.IsAvailable ? "Yes" : "Nope")</td>
+                <td>@(b.IsAvailable ? "Yes" : "No")</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@b.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@b.Id" class="btn btn-sm btn-outline-danger">Delete</a>

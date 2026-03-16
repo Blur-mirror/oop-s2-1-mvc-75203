@@ -38,8 +38,7 @@ public class BooksController : Controller
             .OrderBy(c => c)
             .ToListAsync();
 
-        ViewBag.Categories = new SelectList(categories);
-        ViewBag.Search = search;
+        ViewBag.Categories = categories;
         ViewBag.Category = category;
         ViewBag.Availability = availability;
 
